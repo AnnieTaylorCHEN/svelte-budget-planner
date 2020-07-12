@@ -1,14 +1,22 @@
 <script>
   import Title from "./Title.svelte";
-  let name = "";
-  let amount = null;
+  export let name = "";
+  export let amount = null;
+  export let isEditing;
+  export let editExpense;
+  export let addExpense;
+  export let hideForm;
   $: isEmpty = !name || !amount;
-  export let addExpense
   const handleSubmit = () => {
-      addExpense({name, amount})
-      name = ""
-      amount = null
-  }
+    if (isEditing) {
+      editExpense({ name, amount });
+    } else {
+      addExpense({ name, amount });
+      name = "";
+      amount = null;
+      hideForm();
+    }
+  };
 </script>
 
 <style>
@@ -24,6 +32,11 @@
   .btn {
     color: blue;
     border: 1px solid blue;
+  }
+
+  .btn--close {
+    color: red;
+    border: 1px solid red;
   }
 
   .disabled {
@@ -51,8 +64,9 @@
       class="btn"
       class:disabled={isEmpty}
       disabled={isEmpty}>
-      Add expense
+      {#if isEditing}Edit Expense{:else}Add Expense{/if}
     </button>
+    <button class="btn--close" on:click={hideForm}> Close Form </button>
   </form>
 
 </section>
