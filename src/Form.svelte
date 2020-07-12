@@ -11,7 +11,9 @@
     if (isEditing) {
       editExpense({ name, amount });
     } else {
-      addExpense({ name, amount });
+      if (name !== "" && amount !== null) {
+        addExpense({ name, amount });
+      }
       name = "";
       amount = null;
       hideForm();
@@ -66,7 +68,7 @@
       disabled={isEmpty}>
       {#if isEditing}Edit Expense{:else}Add Expense{/if}
     </button>
-    <button class="btn--close" on:click={hideForm}> Close Form </button>
+    <button class="btn--close" on:click={hideForm}>Close Form</button>
   </form>
 
 </section>
